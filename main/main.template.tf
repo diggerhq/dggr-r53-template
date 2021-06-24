@@ -104,7 +104,7 @@ output "acm_certificate_arn" {
     secret_key = var.aws_secret
   }
 
-  resource "aws_acm_certificate" "cert" {
+  resource "aws_acm_certificate" "cert_virginia" {
     provider = aws.virginia
     domain_name       = var.certificate_domain
     validation_method = "DNS"
@@ -115,10 +115,10 @@ output "acm_certificate_arn" {
   }
 
 
-  resource "aws_route53_record" "cert_validation" {
+  resource "aws_route53_record" "cert_virginia_validation" {
     provider = aws.dggr_r53
     for_each = {
-      for dvo in aws_acm_certificate.cert.domain_validation_options : dvo.domain_name => {
+      for dvo in aws_acm_certificate.cert_virginia.domain_validation_options : dvo.domain_name => {
         name   = dvo.resource_record_name
         record = dvo.resource_record_value
         type   = dvo.resource_record_type
