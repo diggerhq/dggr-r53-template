@@ -52,6 +52,7 @@ provider "aws" {
 }
 
 
+
 provider "aws" {
   alias  = "dggr_r53"
   # region  = var.dggr_region
@@ -86,3 +87,61 @@ resource "aws_route53_record" "cert_validation" {
   type            = each.value.type
   zone_id         = var.dggr_zone_id
 }
+
+
+output "acm_certificate_arn" {
+  value = aws_acm_certificate.cert.arn
+}
+
+
+{% if region != "us-east-1"}
+  provider "aws" {
+    alias = "virginia"
+    version = "= 3.45.0"
+    region  = "us-east-1"
+    # profile = var.aws_profile
+    access_key = var.aws_key
+    secret_key = var.aws_secret
+  }
+
+  resource "aws_acm_certificate" "cert" {
+    provider = aws.virginia
+    domain_name       = var.certificate_domain
+    validation_method = "DNS"
+
+    lifecycle {
+      create_before_destroy = true
+    }
+  }
+
+
+  resource "aws_route53_record" "cert_validation" {
+    provider = aws.dggr_r53
+    for_each = {
+      for dvo in aws_acm_certificate.cert.domain_validation_options : dvo.domain_name => {
+        name   = dvo.resource_record_name
+        record = dvo.resource_record_value
+        type   = dvo.resource_record_type
+      }
+    }
+
+    allow_overwrite = true
+    name            = each.value.name
+    records         = [each.value.record]
+    ttl             = 60
+    type            = each.value.type
+    zone_id         = var.dggr_zone_id
+  }
+
+  output "acm_virginia_certificate_arn" {
+    value = aws_acm_certificate.cert_virginia.arn
+  }
+
+{% else %}
+
+  output "acm_virginia_certificate_arn" {
+    value = aws_acm_certificate.cert.arn
+  }
+
+{% endif %}
+
