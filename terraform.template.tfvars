@@ -1,5 +1,6 @@
 region = "{{region}}"
-# dggr_region = "{{dggr_region}}"
+aws_key = "{{aws_key}}"
+aws_secret = "{{aws_secret}}"
 dggr_aws_key = "{{dggr_aws_key}}"
 dggr_aws_secret = "{{dggr_aws_secret}}"
 certificate_domain = "{{certificate_domain}}"
