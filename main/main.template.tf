@@ -39,7 +39,8 @@ provider "aws" {
 
 provider "aws" {
   alias  = "dggr_r53"
-  region  = var.dggr_region
+  # doesn't matter because R53 is global
+  region  = "us-east-1"
   access_key = var.dggr_aws_key
   secret_key = var.dggr_aws_secret      
 }
