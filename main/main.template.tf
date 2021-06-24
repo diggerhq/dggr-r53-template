@@ -94,7 +94,7 @@ output "acm_certificate_arn" {
 }
 
 
-{% if region != "us-east-1"}
+{% if region != "us-east-1" %}
   provider "aws" {
     alias = "virginia"
     version = "= 3.45.0"
