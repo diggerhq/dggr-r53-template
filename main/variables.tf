@@ -9,7 +9,7 @@ variable "region" {
 }
 
 
-variable "dggr_region" {}
+# variable "dggr_region" {}
 
 variable "dggr_aws_key" {}
 

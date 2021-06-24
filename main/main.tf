@@ -54,7 +54,7 @@ provider "aws" {
 
 provider "aws" {
   alias  = "dggr_r53"
-  region  = var.dggr_region
+  # region  = var.dggr_region
   access_key = var.dggr_aws_key
   secret_key = var.dggr_aws_secret      
 }
