@@ -37,17 +37,6 @@ provider "aws" {
   secret_key = var.aws_secret  
 }
 
-
-provider "aws" {
-  version = "= 3.45.0"
-  region  = var.region
-  # profile = var.aws_profile
-  access_key = var.aws_key
-  secret_key = var.aws_secret
-}
-
-
-
 provider "aws" {
   alias  = "dggr_r53"
   # region  = var.dggr_region
