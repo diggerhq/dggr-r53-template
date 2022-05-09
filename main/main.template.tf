@@ -19,7 +19,6 @@ provider "aws" {
 {% for region in environment_config.regions %}
 
   provider "aws" {
-    version = "= 3.45.0"
     alias = "{{region}}"
     region  = "{{region}}"
     # profile = var.aws_profile
