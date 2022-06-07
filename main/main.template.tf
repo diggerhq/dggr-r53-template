@@ -23,8 +23,15 @@ provider "aws" {
     alias = "{{region}}"
     region  = "{{region}}"
     # profile = var.aws_profile
+    {% if assume_role_arn %}
+    assume_role {
+      role_arn="{{assume_role_arn}}"
+      external_id="{{assume_role_external_id}}"
+    }
+    {% else %}
     access_key = var.aws_key
-    secret_key = var.aws_secret  
+    secret_key = var.aws_secret
+    {% endif %} 
   }
 
   resource "aws_acm_certificate" "cert_{{region}}" {
